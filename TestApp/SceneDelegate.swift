@@ -6,8 +6,10 @@
 //
 
 import UIKit
+import AppCenter
+import AppCenterDistribute
 
-class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+class SceneDelegate: UIResponder, UIWindowSceneDelegate, DistributeDelegate {
 
     var window: UIWindow?
 
@@ -17,6 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
+        Distribute.delegate = self
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -47,6 +50,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
     }
 
+    func distribute(_ distribute: Distribute, releaseAvailableWith details: ReleaseDetails) -> Bool {
 
+      // Your code to present your UI to the user, e.g. an UIAlertController.
+      let alertController = UIAlertController(title: "Update available.",
+                                            message: "Do you want to update?",
+                                     preferredStyle:.alert)
+
+      alertController.addAction(UIAlertAction(title: "Update", style: .cancel) {_ in
+        Distribute.notify(.update)
+      })
+
+      alertController.addAction(UIAlertAction(title: "Postpone", style: .default) {_ in
+        Distribute.notify(.postpone)
+      })
+
+      // Show the alert controller.
+      self.window?.rootViewController?.present(alertController, animated: true)
+      return true;
+    }
 }
 

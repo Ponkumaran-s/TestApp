@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import AppCenter
+import AppCenterDistribute
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,6 +16,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+
+        AppCenter.start(withAppSecret: "6492fe75-2561-47d2-b198-0291b43e4d41", services: [Distribute.self])
+
         return true
     }
 
